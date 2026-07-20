@@ -8,16 +8,21 @@ import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
   templateUrl: './produto.html',
   styleUrl: './produto.css',
 })
-
 export class Produto {
- //Entrada de dados de lista-produtos.ts
+  // Entrada de dados
   @Input() nome: string = '';
-  @Input() preco: number = 0;
+  @Input() preco: number = 0; 
   
-  //Saída de dados de produtos selecionados para lista-produtos.ts
+  // Saídas de dados para lista-produtos
   @Output() produtoSelecionado = new EventEmitter<string>();
-  
-    selecionarProduto() {
-      this.produtoSelecionado.emit(this.nome);
-}
+  @Output() adicionarCarrinho = new EventEmitter<{ nome: string; valor: number }>();
+
+  selecionarProduto() {
+    this.produtoSelecionado.emit(this.nome);
+  }
+
+  // Função disparada ao clicar no botão de adicionar ao carrinho
+  comprar() {
+    this.adicionarCarrinho.emit({ nome: this.nome, valor: this.preco });
+  }
 }
