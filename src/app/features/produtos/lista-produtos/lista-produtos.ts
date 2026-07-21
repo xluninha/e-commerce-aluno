@@ -11,11 +11,11 @@ import { UpperCasePipe } from '@angular/common';
 })
 export class ListaProdutos {
   produtos = signal([
-    { nome: 'Teclado Gamer', preco: 149.00 },
-    { nome: 'Mouse Gamer', preco: 299.99 },
-    { nome: 'Monitor Gamer', preco: 1599.99 },
-    { nome: 'Desktop Gamer', preco: 4999.99 },
-    { nome: 'Headset Gamer', preco: 699.99 }
+    { nome: 'Pirulito da Antonela', preco: 54.99 },
+    { nome: 'Lollo', preco: 299.99 },
+    { nome: 'Paçoquita', preco: 32.99 },
+    { nome: 'Pipoca das Marias', preco: 179.95 },
+    { nome: 'Chocolate Tortuguita', preco: 10.00 }
   ]);
 
   produtoSelecionado = signal<string | null>(null);
@@ -52,13 +52,13 @@ export class ListaProdutos {
   adicionarProduto() {
     this.produtos.update(listaAtual => [
       ...listaAtual, 
-      { nome: 'Sony PlayStation 5', preco: 10000 }
+      { nome: 'Biscoito Passatempo', preco: 29.90 }
     ]);
   }
 
   substituirProdutos() {
     this.produtos.set([
-      { nome: 'Arroz Fazenda', preco: 400 },
+      { nome: 'Toddynho', preco: 109.24 },
       { nome: 'Marshmallows Fini', preco: 5.99 }
     ]);
   }
