@@ -10,13 +10,10 @@ import { UpperCasePipe } from '@angular/common';
   styleUrl: './lista-produtos.css',
 })
 export class ListaProdutos {
-  produtos = signal([
-    { nome: 'Pirulito da Antonela', preco: 54.99 },
-    { nome: 'Lollo', preco: 299.99 },
-    { nome: 'Paçoquita', preco: 32.99 },
-    { nome: 'Pipoca das Marias', preco: 179.95 },
-    { nome: 'Chocolate Tortuguita', preco: 10.00 }
-  ]);
+  produtos = signal <
+  { nome: string ; preco: number } []> ([]);
+  
+  carregando = signal(true);
 
   produtoSelecionado = signal<string | null>(null);
   carrinho = signal<{ nome: string; valor: number }[]>([]);
