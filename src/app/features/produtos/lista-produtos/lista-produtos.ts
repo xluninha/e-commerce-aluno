@@ -1,96 +1,106 @@
-import { Component, effect, signal, computed } from '@angular/core';
-import { Produto } from '../produto/produto';
-import { PrecoFormatadoPipe } from '../../../shared/pipes/preco-formatado-pipe';
-import { UpperCasePipe } from '@angular/common';
+import { Component, signal, computed, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Produto } from '../produto/produto';
 
 @Component({
-  selector: 'app-lista-produtos',
-  imports: [Produto, PrecoFormatadoPipe, UpperCasePipe],
-  templateUrl: './lista-produtos.html',
-  styleUrl: './lista-produtos.css',
+selector: 'app-lista-produtos',
+imports: [Produto],
+templateUrl: './lista-produtos.html',
+styleUrl: './lista-produtos.css',
 })
+
 export class ListaProdutos {
+// ===== SIGNALS =====
+// AGORA VEM DA API (inicia vazio)
+produtos = signal<{ nome: string; preco: number }[]>([]);
 
-  //! remover a lista de produtos, dados carregados via API Fakestoreapi
-  produtos = signal <
-  { nome: string ; preco: number } []> ([]);
-//? criar estado de carregamentoo, 
-//** true: requisição em andamento, exibir indicador no template
-//! false: esconder indicador e exibir a lista de produtos
-  carregando = signal(true);
-  produtoSelecionado = signal<string | null>(null);
-  carrinho = signal<{ nome: string; valor: number }[]>([]);
+produtoSelecionado = signal<string | null>(null);
 
-   carregarProdutos() {
-    this.carregando.set(true);
-    this.http.get<
-      { title: string; valor: number }[]
-    >
-      ('https://fakstore.com/products')
-      .subscribe({
-        next: (dados) => {
-          const produtosFormatados = dados.map(p => ({
-            nome: p.title, preco: p.valor
-          }));
-          this.produtos.set(produtosFormatados);
-          this.carregando.set(false);
-        },
-        error: (e) => {
-          console.error('Erro ao carregar produtos: ', e);
-          this.carregando.set(false);
-        }
-      })
-  }
+// Carrinho continua igual
+carrinho = signal<{ nome: string; preco: number }[]>([]);
 
-  // Computeds
-  totalProdutos = computed(() => this.produtos().length);
-  valorTotal = computed(() => this.produtos().reduce((total, item) => total + item.preco, 0));
-  quantidadeCarrinho = computed(() => this.carrinho().length);
-  totalCarrinho = computed(() => this.carrinho().reduce((total, item) => total + item.valor, 0));
+// controle de carregamento
+carregando = signal(true);
 
-  // O construtor correto em inglês
-  //! injetar httpClient dentro de construct, reestruturar constructor!!!
-  constructor( private http: HttpClient ) {
-    effect(() => {
-      console.log("Lista de Produtos Alterados: ", this.produtos());
-    });
-    
-    effect(() => {
-      console.log("Valor total atualizado: ", this.valorTotal());
-    });
+// ===== COMPUTED =====
+totalProdutos = computed(() => this.produtos().length);
+valorTotal = computed(() => {
+return this.produtos()
+.reduce((total, item) => total + item.preco, 0);
+});
+quantidadeCarrinho = computed(() => this.carrinho().length);
+totalCarrinho = computed(() => {
+return this.carrinho()
+.reduce((total, item) => total + item.preco, 0);
+});
+// ===== CONSTRUTOR =====
+constructor(private http: HttpClient) {
+// carrega da API
+this.carregarProdutos();
+// effects continuam iguais
+effect(() => {
+console.log('Lista de produtos alterada:', this.produtos());
+});
+effect(() => {
+console.log('Valor total atualizado:', this.valorTotal());
+});
+effect(() => {
+if (typeof document !== 'undefined') {
+document.title = `(${this.totalProdutos()}) Minha Loja`;
+}
+});
+}
 
-    effect(() => {
-      if (typeof document !== "undefined") {
-        document.title = `(${this.totalProdutos()}) Minha Loja`;
-      }
-    });
-  }
+// ===== MÉTODO HTTP (API) =====
+carregarProdutos() {
 
-  exibirProduto(nome: string) {
-    console.log('Produto Selecionado: ', nome);
-    this.produtoSelecionado.set(nome);
-  }
+// inicia loading
+this.carregando.set(true);
 
-  adicionarProduto() {
-    this.produtos.update(listaAtual => [
-      ...listaAtual, 
-      { nome: 'Biscoito Passatempo', preco: 29.90 }
-    ]);
-  }
+this.http.get<{ title: string; price: number }[]>
+('https://fakestoreapi.com/products')
+.subscribe({
+next: (dados) => {
 
-  substituirProdutos() {
-    this.produtos.set([
-      { nome: 'Toddynho', preco: 109.24 },
-      { nome: 'Marshmallows Fini', preco: 5.99 }
-    ]);
-  }
+// Adaptação da API para o nosso projeto
+const produtosFormatados = dados.map(p => ({
+nome: p.title,
+preco: p.price
+}));
 
-  adicionarAoCarrinho(produto: { nome: string; valor: number }) {
-    this.carrinho.update(listaAtual => [...listaAtual, produto]);
-  }
+this.produtos.set(produtosFormatados);
+this.carregando.set(false); // finaliza loading
+},
 
-  removeTodosProdutos() {
-    this.produtos.set([]);
-  }
+error: (erro) => {
+console.error('Erro ao carregar produtos:', erro);
+this.carregando.set(false); // evita loading infinito
+}
+});
+}
+
+// ===== MÉTODOS EXISTENTES (INALTERADOS) =====
+exibirProduto(nome: string) {
+this.produtoSelecionado.set(nome);
+}
+
+adicionarProduto() {
+this.produtos.update(listaAtual => [
+...listaAtual,
+{ nome: 'Teclado', preco: 250 }
+]);
+}
+
+substituirProdutos() {
+this.produtos.set([
+{ nome: 'Produto novo', preco: 999 }
+]);
+}
+
+adicionarAoCarrinho(produto: { nome: string; preco: number }) {
+this.carrinho.update(listaAtual => [
+...listaAtual,
+produto
+]);
+}
 }
