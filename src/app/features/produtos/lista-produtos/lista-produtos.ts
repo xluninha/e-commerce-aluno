@@ -71,7 +71,7 @@ export class ListaProdutos {
   });
   effect(() => {
     if (typeof document !== 'undefined'){
-      document.title = `(${this.totalProdutos()}) - Loja do Matheus`;
+      document.title = `(${this.totalProdutos()}) - Loja da Luna`;
     }
   });
 }
