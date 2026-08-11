@@ -4,6 +4,7 @@ import { MatButtonModule, MatAnchor } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { CarrinhoService } from '../../../core/services/carrinho.service';
 import { inject } from '@angular/core';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,13 @@ import { inject } from '@angular/core';
   styleUrl: './header.css',
 })
 export class Header {
-  nomeLoja = 'Mercado Liso';
+  nomeLoja = 'Lunupi';
   private carrinhoService = inject(CarrinhoService);
+  private authService = inject(AuthService);
   quantidadeHeader = this.carrinhoService.quantidadeItens;
+  estaLogado = this.authService.estaLogado;
+usuarioAtual = this.authService.usuarioAtual;
+sair() {
+this.authService.logout();
+}
 }
