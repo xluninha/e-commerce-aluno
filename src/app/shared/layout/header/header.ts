@@ -1,25 +1,29 @@
-import { Component } from '@angular/core';
-import { MatToolbarModule, MatToolbar } from '@angular/material/toolbar';
-import { MatButtonModule, MatAnchor } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 import { CarrinhoService } from '../../../core/services/carrinho.service';
-import { inject } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-header',
-  imports: [MatToolbar, MatAnchor, RouterLink],
+  imports: [MatToolbarModule, MatButtonModule, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
-  nomeLoja = 'Lunupi';
   private carrinhoService = inject(CarrinhoService);
   private authService = inject(AuthService);
-  quantidadeHeader = this.carrinhoService.quantidadeItens;
+  private router = inject(Router);
+
+  // CORRIGIDO: Atribui o Signal quantidadeItens diretamente
+  quantidade = this.carrinhoService.quantidadeItens;
+
   estaLogado = this.authService.estaLogado;
-usuarioAtual = this.authService.usuarioAtual;
-sair() {
-this.authService.logout();
-}
+  usuarioAtual = this.authService.usuarioAtual;
+
+  sair() {
+    this.authService.logout();
+    this.router.navigateByUrl('/login');
+  }
 }
