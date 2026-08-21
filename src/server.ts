@@ -1,3 +1,7 @@
+/**Este é o servidor Node.js/Express responsável pelo Server-Side Rendering (SSR).
+ *  Ele renderiza as páginas no lado do servidor antes de mandar para o navegador, deixando o site mais rápido e bom para o Google (SEO).*/
+
+
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -7,26 +11,15 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 
+// Define a pasta onde estão os arquivos estáticos compilados do navegador
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
+// Cria a aplicação do servidor web Express
 const app = express();
+// Inicializa o motor SSR do Angular
 const angularApp = new AngularNodeAppEngine();
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
-
-/**
- * Serve static files from /browser
- */
+// Servir arquivos estáticos (imagens, CSS, scripts) com cache de 1 ano
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
@@ -35,9 +28,7 @@ app.use(
   }),
 );
 
-/**
- * Handle all other requests by rendering the Angular application.
- */
+// Intercepta todas as outras requisições e faz o Angular renderizar a página no servidor
 app.use((req, res, next) => {
   angularApp
     .handle(req)
@@ -47,10 +38,7 @@ app.use((req, res, next) => {
     .catch(next);
 });
 
-/**
- * Start the server if this module is the main entry point, or it is ran via PM2.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
- */
+// Inicializa o servidor ouvindo na porta configurada (padrão 4000)
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || 4000;
   app.listen(port, (error) => {
@@ -62,7 +50,5 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
   });
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
+// Manipulador exportado para rodar em nuvens como Firebase Cloud Functions ou Vercel
 export const reqHandler = createNodeRequestHandler(app);
