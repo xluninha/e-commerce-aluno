@@ -1,5 +1,10 @@
+<!--? Este é o esqueleto visual base da sua loja. Ele define as áreas fixas e dynamic content.
+
+ <!-Exibe o cabeçalho fixo no topo do site (menu de navegação, logo, busca, etc.) -->
 <app-header></app-header>
 
+<!-- Área principal onde o conteúdo das páginas realmente vai aparecer -->
 <main class="container-principal">
-<router-outlet></router-outlet>
+  <!-- O Angular injeta aqui o componente da página atual baseado na URL acessada (Home, Carrinho, etc.) -->
+  <router-outlet></router-outlet>
 </main>
