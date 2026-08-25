@@ -1,0 +1,40 @@
+.item{
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 50%;
+margin: 10px;
+}
+.btn-confirmar{
+    background-color: #329932;
+    color:#fff
+}
+
+    .btn-cancelar{
+        background-color: #ff3232;
+        color:#fff
+    }
+    
+.pagina-carrinho {
+max-width: 800px;
+}
+.lista-carrinho {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.item-carrinho h3 {
+margin: 0 0 4px;
+}
+.item-carrinho p {
+margin: 0;
+}
+.resumo-carrinho {
+margin: 16px 0;
+}
+.acoes-carrinho {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+}
