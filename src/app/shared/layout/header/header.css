@@ -29,7 +29,7 @@ button {
   font-size: 18px;
 }
 mat-toolbar button {
-  color: #000000;
+  color: #ffffff;
 }
  button:hover {
   background-color: #9671df !important;

@@ -1,11 +1,17 @@
 //?Este arquivo funciona como o mapa de rotas (URLs) do seu e-commerce. Ele diz qual componente carregar para cada caminho e protege as páginas privadas.
 import { Routes } from '@angular/router';
-
+import { Favoritos } from './features/produtos/favoritos/favoritos';
 // Proteções (Guards) que verificam permissões antes de liberar o acesso às páginas
 import { authGuard } from './core/guard/auth.guard';
 import { adminGuard } from './core/guard/admin.guard';
 
 export const routes: Routes = [
+
+
+  {
+    path: 'favoritos', component: Favoritos, // https://seusite.com/favoritos: Página de favoritos
+  },
+
   {
     // Caminho vazio (https://seusite.com/): Página Inicial
     path: '',
