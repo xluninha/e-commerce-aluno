@@ -1,4 +1,5 @@
-<h2>Checkout</h2>
+<section class="pagina-checkout">
+    <h2>Checkout</h2>
 @if (pedidoFinalizado()) {
 <section>
 <h3 style="color: green">Compra finalizada com sucesso!</h3>
@@ -6,14 +7,15 @@
 <p><strong>Cliente:</strong> {{ pedidoFinalizado()?.cliente }}</p>
 <p><strong>Itens comprados:</strong> {{ pedidoFinalizado()?.quantidadeItens }}</p>
 <p><strong>Total:</strong> R$ {{ pedidoFinalizado()?.total?.toFixed(2) }}</p>
-<button type="button" routerLink="/produtos">Fazer nova compra</button>
+<button mat-raised-button color="primary" type="button" (click)="finalizar()">Finalizar Compra</button>
+<button mat-raised-button type="button" routerLink="/produtos">Fazer nova compra</button>
 </section>
 }
 @if (carrinhoFacade.carrinhoVazio() && !pedidoFinalizado()) {
 <p style="color: red">
 Seu carrinho está vazio. Adicione produtos antes de finalizar a compra.
 </p>
-<button type="button" routerLink="/produtos">
+<button mat-raised-button type="button" routerLink="/produtos">
 Ver produtos
 </button>
 } @else if (!pedidoFinalizado()) {
@@ -21,13 +23,12 @@ Ver produtos
 <h3>Resumo do pedido</h3>
 <p>Itens no carrinho: {{ carrinhoFacade.quantidade() }}</p>
 <h3>Total: R$ {{ carrinhoFacade.total().toFixed(2) }}</h3>
-<button type="button" routerLink="/carrinho">
-Revisar carrinho
+<button mat-raised-button type="button" routerLink="/carrinho"> Revisar carrinho
 </button>
 </section>
 <hr />
 
-<form [formGroup]="formulario">
+<form [formGroup]="formulario" class="form">
 <p><input type="text" formControlName="nome" placeholder="Nome" /></p>
 @if (formulario.get('nome')?.touched && formulario.get('nome')?.invalid) {
 @if (formulario.get('nome')?.errors?.['required']) {
@@ -65,3 +66,4 @@ Finalizar Compra
 </p>
 </form>
 }
+</section>

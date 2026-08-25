@@ -10,6 +10,7 @@ Validators,
 import { RouterLink } from '@angular/router';
 import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
 import { ItemCarrinho } from '../../../core/models/item.carrinho';
+import { MatButtonModule } from '@angular/material/button';
 type PedidoFinalizado = {
 codigo: number;
 cliente: string;
@@ -27,7 +28,7 @@ return null;
 }
 @Component({
 selector: 'app-checkout',
-imports: [ReactiveFormsModule, RouterLink],
+imports: [ReactiveFormsModule, RouterLink, MatButtonModule],
 templateUrl: './checkout.html',
 styleUrl: './checkout.css',
 })
