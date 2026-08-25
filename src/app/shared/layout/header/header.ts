@@ -4,13 +4,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { CarrinhoFacade } from '../../../core/facades/carrinho.facade';
 import { AuthFacade } from '../../../core/facades/auth.facade';
+import { UpperCasePipe } from '@angular/common'; 
 @Component({
 selector: 'app-header',
-imports: [MatToolbarModule, MatButtonModule, RouterLink],
+standalone: true,
+imports: [MatToolbarModule, MatButtonModule, RouterLink, UpperCasePipe],
 templateUrl: './header.html',
 styleUrl: './header.css',
 })
 export class Header {
+    nomeLoja: string = 'Lunupi';
 // o Header deixa de acessar diretamente os services.
 // Agora ele consome facades, que simplificam o acesso ao carrinho e à autenticação.
 private carrinhoFacade = inject(CarrinhoFacade);

@@ -1,12 +1,69 @@
+/** Estrutura principal da barra */
 mat-toolbar {
-display: flex;
-flex-wrap: wrap;
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: "Dekko", cursive !important;
+  font-size: 24px;
+  background-color: #beaae4 !important;
 }
 
+
+/** Espaçador flexível para empurrar itens à direita */
 .flex-spacer {
-flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
+/** Link da logo / nome da loja */
+mat-toolbar a {
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+
+/** Estilo geral e hover dos botões */
 button {
- margin-left: 8px;
+  margin-left: 8px;
+  font-family: "Dekko", cursive;
+  font-size: 18px;
+}
+mat-toolbar button {
+  color: #000000;
+}
+ button:hover {
+  background-color: #9671df !important;
+  color: #000000 !important;
+}
+
+
+/** Detalhes de texto (E-mail e Contador do Carrinho) */
+.email-header {
+  color: #1F1F6A;
+  font-size: 19px;
+  margin-left: 10px;
+  font-weight: italic;
+}
+
+.badge-carrinho {
+  color: #1F1F6A;
+  font-weight: bold;
+  margin-left: 4px;
+}
+
+
+/** Estilo dos botões de ação (Entrar/Sair) */
+.btn-entrar{
+  background-color: #A6E1FF !important;
+  box-shadow: 0 0 0 0.5px #fff;
+}
+
+.btn-entrar:hover {
+  background-color: #7ed2fc !important;
+  box-shadow: 0 0 0 0.5px #fff;
+}
+
+.btn-sair:hover {
+  background-color: #F84F7B !important;
+  box-shadow: 0 0 0 0.5px #fff;
 }
